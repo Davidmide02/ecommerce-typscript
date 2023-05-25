@@ -11,6 +11,11 @@ function App() {
         <Header />
         <main className="border-2 border-gray-500 mt-5">
           <Card />
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+
           <Orders />
         </main>
       </div>
