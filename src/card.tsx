@@ -7,39 +7,37 @@ import { useState } from "react";
 type cardProps = {
   productName: string;
   color: string;
+  setTotal:React.Dispatch<React.SetStateAction<number>>;
 };
-// type handleClickprops= {
-//     fnHandle :void
-// }
 
-function Card({ productName, color }: cardProps) {
+function Card({ productName, color, setTotal}: cardProps) {
   let [price, setPrice] = useState(0);
   let [quantity, setQuantity] = useState(0);
-  let[disactive, setDisactive] = useState(false);
+  let [disactive, setDisactive] = useState(false);
 
   function handleSubtract(): void {
     if (price > 0) {
       let subPrice = price - 5500;
       setPrice(subPrice);
-      setQuantity(quantity-1);
+      setQuantity(quantity - 1);
       console.log(price);
       console.log(quantity);
-    
+      setTotal(price);
+      
     } else {
       console.log("disactive button");
       setQuantity(0);
       setDisactive(true);
+      // setTotal(price)
     }
   }
   function handleAdd(): void {
     let addPrice = price + 5500;
-    // qtyNumber = qtyNumber + 1;
-    setQuantity(quantity+1);
+    setQuantity(quantity + 1);
     setPrice(addPrice++);
+    setTotal(price);
     console.log(price);
     setDisactive(false);
-    
-    
   }
 
   return (
@@ -60,14 +58,20 @@ function Card({ productName, color }: cardProps) {
               <AiOutlinePlus />
             </button>
             <p>QTY {quantity} </p>
-           {!disactive && <button className="p-4 bg-red-500" onClick={handleSubtract}>
-              <GrFormSubtract />
-            </button>
-            }
-            {disactive && <button className="p-4 bg-red-200" onClick={handleSubtract} disabled>
-              <GrFormSubtract />
-            </button>
-            }
+            {!disactive && (
+              <button className="p-4 bg-red-500" onClick={handleSubtract}>
+                <GrFormSubtract />
+              </button>
+            )}
+            {disactive && (
+              <button
+                className="p-4 bg-red-200"
+                onClick={handleSubtract}
+                disabled
+              >
+                <GrFormSubtract />
+              </button>
+            )}
           </div>
         </div>
       </div>
