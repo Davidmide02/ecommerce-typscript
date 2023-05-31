@@ -21,41 +21,64 @@ import { dbProps } from "./App";
 //   setTotal: React.Dispatch<React.SetStateAction<number>>;
 // };
 
-type cardProps = dbProps;
-function Card({ imgSrc, productName, color, amount }: cardProps) {
-  let [price, setPrice] = useState(0);
-  let [quantity, setQuantity] = useState(0);
-  let [disactive, setDisactive] = useState(false);
+type cardProps = {
+  productName: string;
+  color: string;
+  imgSrc: string;
+  amount: number;
+  quanty: number;
+  handleAdd: (value: number) => void;
+  id: number;
+  setCartItems: React.Dispatch<React.SetStateAction<dbProps[]>>;
 
-  function handleAdd(): void {
-    let addPrice = price + amount;
-    setQuantity(quantity + 1);
-    // handleTotal(price);
-    setPrice(addPrice);
-    // setTotal(addPrice);
+  cartItems: dbProps[];
+  handleTotal: (Items: dbProps[]) => null;
+};
+function Card({
+  productName,
+  imgSrc,
+  id,
+  amount,
+  color,
+  quanty,
+  handleTotal,
+  cartItems,
+  handleAdd,
+  setCartItems,
+}: cardProps) {
+  let [disactive, setDisactive] = useState(true);
+  // function handleAdd(): void {
+  //   let addPrice = price + amount;
+  //   setQuantity(quantity + 1);
+  //   handleTotal(price);
+  //   setPrice(addPrice);
+  //   setTotal(addPrice);
 
-    console.log(addPrice + "this is add");
+  //   console.log(addPrice + "this is add");
 
-    // console.log(price);
-    setDisactive(false);
-  }
+  //   console.log(price);
+  //   setDisactive(false);
 
-  function handleSubtract(): void {
-    if (price > 0) {
-      let subPrice = price - 5500;
-      setPrice(subPrice);
-      setQuantity(quantity - 1);
-      console.log(subPrice);
-      console.log(quantity);
-      // setTotal(subPrice);
-      // handleTotal(subPrice);
-      console.log(subPrice + "this is sub");
-    } else {
-      console.log("disactive button");
-      setQuantity(0);
-      setDisactive(true);
-    }
-  }
+  // }
+
+  // function handleSubtract(): void {
+  //   if (price > 0) {
+  //     let subPrice = price - 5500;
+  //     setPrice(subPrice);
+  //     setQuantity(quantity - 1);
+  //     console.log(subPrice);
+  //     console.log(quantity);
+  //     setTotal(subPrice);
+  //     handleTotal(subPrice);
+  //     console.log(subPrice + "this is sub");
+  //   } else {
+  //     console.log("disactive button");
+  //     setQuantity(0);
+  //     setDisactive(true);
+  //   }
+  // }
+
+  function handleSubtract(params: dbProps[]) {}
 
   return (
     <div className="card border-b-2 border-gray-500 flex justify-between gap-2 p-2 mb-2 h-[12%] md:h-[24%]">
@@ -71,19 +94,31 @@ function Card({ imgSrc, productName, color, amount }: cardProps) {
             <p>color: {color}</p>
           </div>
           <div className="btns flex gap-2 justify-between ">
-            <button className="p-4 bg-green-400 mr-2" onClick={handleAdd}>
+            <button
+              className="p-4 bg-green-400 mr-2"
+              onClick={() => {
+                handleAdd(id);
+              }}
+            >
               <AiOutlinePlus />
             </button>
-            <p>QTY {quantity} </p>
+            <p>QTY {} </p>
             {!disactive && (
-              <button className="p-4 bg-red-500" onClick={handleSubtract}>
+              <button
+                className="p-4 bg-red-500"
+                onClick={() => {
+                  handleSubtract(cartItems);
+                }}
+              >
                 <GrFormSubtract />
               </button>
             )}
             {disactive && (
               <button
                 className="p-4 bg-red-200"
-                onClick={handleSubtract}
+                onClick={() => {
+                  handleSubtract(cartItems);
+                }}
                 disabled
               >
                 <GrFormSubtract />
@@ -93,7 +128,7 @@ function Card({ imgSrc, productName, color, amount }: cardProps) {
         </div>
       </div>
       <div className="price flex flex-col justify-between">
-        <p>NGN amount: {price}</p>
+        <p>NGN amount: {amount * quanty}</p>
         <p>new p {amount}</p>
         <button>Remove</button>
       </div>

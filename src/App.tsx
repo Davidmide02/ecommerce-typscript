@@ -13,6 +13,8 @@ export type dbProps = {
   color: string;
   imgSrc: string;
   amount: number;
+  quanty: number;
+  id: number;
   // card?: React.ReactElement;
 };
 const db: dbProps[] = [
@@ -21,24 +23,32 @@ const db: dbProps[] = [
     color: "white",
     imgSrc: shoe,
     amount: 200,
+    quanty: 0,
+    id: 0,
   },
   {
     productName: "bid",
     color: "white",
     imgSrc: shoe2,
     amount: 300,
+    quanty: 0,
+    id: 1,
   },
   {
     productName: "bic",
     color: "white",
     imgSrc: shoe3,
     amount: 200,
+    quanty: 0,
+    id: 2,
   },
   {
     productName: "biv",
     color: "white",
     imgSrc: shoe4,
     amount: 500,
+    quanty: 0,
+    id: 3,
   },
   // {
   //   productName: "bix",
@@ -53,37 +63,47 @@ const db: dbProps[] = [
 ];
 
 function App() {
-  // let [total, setTotal] = useState(0);
-  // const handleTotal = (value: number) => {
-  //   const amountn = total + value;
-  //   setTotal(value);
-  //   // console.log(amountn + " amount");
-  //   console.log(total + " total");
-  //   // console.log("hello here");
-  // };
+  let [cartItems, setCartItems] = useState(db);
 
-  // const totalAmount = db.reduce
-  // db.reduce ((ack=0, {amount}) => { a})
+  const handleTotal = (items: dbProps[]) => null;
 
+  // const handleAdd = (clickedItem:dbProps) => {
+
+  // }
+  function handleAdd(id: number) {
+    cartItems.map((cartItem) =>
+      cartItem.id === id
+        ? { ...cartItem, quanty: cartItem.quanty + 1 }
+        : console.log(cartItem.id, id)
+    );
+    console.log(id);
+  }
   return (
     <div className="p-4">
       <Header />
       <main className="border-2 border-gray-500 mt-5 md:flex justify-between gap p-4 w-full">
         <div className="card-con">
-          {db.map((item) => {
+          {cartItems.map((item) => {
             return (
               <Card
+                key={item.id}
+                cartItems={cartItems}
+                setCartItems={setCartItems}
+                handleTotal={handleTotal}
                 productName={item.productName}
                 color={item.color}
-                imgSrc={item.imgSrc}
+                quanty={item.quanty}
                 amount={item.amount}
+                id={item.id}
+                imgSrc={item.imgSrc}
+                handleAdd={handleAdd}
               />
             );
           })}
         </div>
 
         <Orders total={4} />
-        {/* <h1>hello</h1> */}
+        {/* <h1></h1> */}
       </main>
     </div>
   );
