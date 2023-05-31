@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import Card from "./card";
 import Header from "./header";
@@ -15,7 +15,6 @@ export type dbProps = {
   amount: number;
   quantity: number;
   id: number;
-  // card?: React.ReactElement;
 };
 const db: dbProps[] = [
   {
@@ -50,62 +49,68 @@ const db: dbProps[] = [
     quantity: 0,
     id: 3,
   },
-  // {
-  //   productName: "bix",
-  //   color: "white",
-  //   imgSrc: "./image.come",
-  // },
-  // {
-  //   productName: "biy",
-  //   color: "white",
-  //   imgSrc: "./src/assets/fabian-heimann-4R_WEmhx8og-unsplash.jpg",
-  // },
 ];
 
 function App() {
   let [cartItems, setCartItems] = useState(db);
 
-  const handleTotal = (items: dbProps[]) => null;
-
-  // const handleAdd = (clickedItem:dbProps) => {
-
-  // }
+  // add item to card and increase item quantity
   function handleAdd(id: number) {
-    const sunAd = cartItems.map((cartItem) => {
-      return cartItem.id === id
+    const increaseQuantity = cartItems.map((cartItem) =>
+      cartItem.id === id
         ? { ...cartItem, quantity: cartItem.quantity + 1 }
-        : cartItem;
-    });
-    setCartItems(sunAd);
-
-    console.log(sunAd);
+        : cartItem
+    );
+    setCartItems(increaseQuantity);
   }
+  // decrease quantity of item
+  function handleSubtract(id: number) {
+    const decreaseQuantity = cartItems.map((cartItem) =>
+      cartItem.id === id && cartItem.quantity > 0
+        ? { ...cartItem, quantity: cartItem.quantity - 1 }
+        : cartItem
+    );
+    setCartItems(decreaseQuantity);
+  }
+
+  const handleRemove = (id: number) => {
+    const reducedArr = cartItems.filter((cartItem) => cartItem.id !== id);
+    setCartItems(reducedArr);
+  };
+  // get total prices
+  let totalPrice = 0;
+  const getTotal = (items: dbProps[]): number => {
+    const total = items.reduce(
+      (ack: number, item) => ack + item.quantity * item.amount,
+      0
+    );
+    totalPrice = total;
+    return total;
+  };
+  getTotal(cartItems);
+
   return (
     <div className="p-4">
       <Header />
       <main className="border-2 border-gray-500 mt-5 md:flex justify-between gap p-4 w-full">
         <div className="card-con">
-          {cartItems.map((item) => {
-            return (
-              <Card
-                key={item.id}
-                cartItems={cartItems}
-                setCartItems={setCartItems}
-                handleTotal={handleTotal}
-                productName={item.productName}
-                color={item.color}
-                quantity ={item.quantity}
-                amount={item.amount}
-                id={item.id}
-                imgSrc={item.imgSrc}
-                handleAdd={handleAdd}
-              />
-            );
-          })}
+          {cartItems.map((item) => (
+            <Card
+              key={item.id}
+              productName={item.productName}
+              color={item.color}
+              quantity={item.quantity}
+              amount={item.amount}
+              id={item.id}
+              imgSrc={item.imgSrc}
+              handleAdd={handleAdd}
+              handleSubtract={handleSubtract}
+              handleRemove={handleRemove}
+            />
+          ))}
         </div>
 
-        <Orders total={4} />
-        {/* <h1></h1> */}
+        <Orders total={totalPrice} />
       </main>
     </div>
   );
