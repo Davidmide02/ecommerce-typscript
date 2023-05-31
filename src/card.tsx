@@ -1,31 +1,92 @@
-import { AiOutlinePlus,} from "react-icons/ai";
+import { AiOutlinePlus } from "react-icons/ai";
 // import { AiOutlinePlus,} from "react-icons/ai";
-import { GrFormSubtract} from "react-icons/gr";
-// import shoe from './assets/fabian-heimann-4R_WEmhx8og-unsplash.jpg'
+import { GrFormSubtract } from "react-icons/gr";
 
-function Card() {
 
-    return(
-        <div className=" border-b-4 border-gray-500 flex justify-between p-2 bg-green-500">
-            <div className="img-btns bg-green-500 flex p-2 gap-5">
-                <img src='./src/assets/fabian-heimann-4R_WEmhx8og-unsplash.jpg' alt="img" className="w-[40%] rounded-md" />
-                <div className="text-btns flex flex-col justify-between">
-                    <div className="text">
-                        <h4>Tile</h4>
-                        <p>color</p>
-                    </div>
-                    <div className="btns">
-                        <button className="p-4 bg-green-400 mr-2"><AiOutlinePlus/></button>
-                        <button className="p-4 bg-red-500"><GrFormSubtract/></button>
-                    </div>
-                </div>
-            </div>
-            <div className="price flex flex-col justify-between">
-                <p>NGN amount</p>
-                <button>Remove</button>
-            </div>
+
+type cardProps = {
+  productName: string;
+  color: string;
+  imgSrc: string;
+  amount: number;
+  quantity: number;
+  id: number;
+  handleAdd: (value: number) => void;
+  handleSubtract: (value: number) => void;
+  handleRemove: (value: number) => void;
+};
+function Card({
+  productName,
+  imgSrc,
+  id,
+  amount,
+  color,
+  quantity,
+  handleAdd,
+  handleSubtract,
+  handleRemove,
+}: cardProps) {
+  return (
+    <div className="card border-b-2 border-gray-500 flex justify-between gap-2 p-2 mb-2 h-[12%] md:h-[24%]">
+      <div className="img-btns flex gap-2 ">
+        <img
+          src={imgSrc}
+          alt="img"
+          className="rounded-md w-[25%] md:w-[35%] h-[100%]"
+        />
+        <div className="text-btns flex flex-col justify-between">
+          <div className="text">
+            <h2 className=" font-extrabold text-xl">Tile: {productName}</h2>
+            <p>color: {color}</p>
+            <p>price: NGN{amount}</p>
+          </div>
+          <div className="btns flex gap-2 justify-between ">
+            <button
+              className="p-4 bg-green-400 mr-2"
+              onClick={() => {
+                handleAdd(id);
+              }}
+            >
+              <AiOutlinePlus />
+            </button>
+            <p>QTY {quantity} </p>
+            {quantity > 0 && (
+              <button
+                className="p-4 bg-red-500"
+                onClick={() => {
+                  handleSubtract(id);
+                }}
+              >
+                <GrFormSubtract />
+              </button>
+            )}
+            {quantity <= 0 && (
+              <button
+                className="p-4 bg-red-300"
+                onClick={() => {
+                  handleSubtract(id);
+                }}
+                disabled
+              >
+                <GrFormSubtract />
+              </button>
+            )}
+          </div>
         </div>
-    )
-    
+      </div>
+      <div className="price flex flex-col justify-between">
+        <p>NGN amount: {amount * quantity}</p>
+        {/* <p>new p {amount}</p> */}
+        <button
+          onClick={() => {
+            handleRemove(id);
+          }}
+          className="text-blue-500 font-semibold hover:bg-gray-400 hover:text-white"
+        >
+          Remove
+        </button>
+      </div>
+    </div>
+  );
 }
 export default Card;
