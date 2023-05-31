@@ -26,7 +26,7 @@ type cardProps = {
   color: string;
   imgSrc: string;
   amount: number;
-  quanty: number;
+  quantity: number;
   handleAdd: (value: number) => void;
   id: number;
   setCartItems: React.Dispatch<React.SetStateAction<dbProps[]>>;
@@ -40,7 +40,7 @@ function Card({
   id,
   amount,
   color,
-  quanty,
+  quantity,
   handleTotal,
   cartItems,
   handleAdd,
@@ -102,7 +102,7 @@ function Card({
             >
               <AiOutlinePlus />
             </button>
-            <p>QTY {} </p>
+            <p>QTY {quantity} </p>
             {!disactive && (
               <button
                 className="p-4 bg-red-500"
@@ -128,7 +128,7 @@ function Card({
         </div>
       </div>
       <div className="price flex flex-col justify-between">
-        <p>NGN amount: {amount * quanty}</p>
+        <p>NGN amount: {amount * quantity}</p>
         <p>new p {amount}</p>
         <button>Remove</button>
       </div>

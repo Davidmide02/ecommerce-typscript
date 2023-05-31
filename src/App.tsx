@@ -13,7 +13,7 @@ export type dbProps = {
   color: string;
   imgSrc: string;
   amount: number;
-  quanty: number;
+  quantity: number;
   id: number;
   // card?: React.ReactElement;
 };
@@ -23,7 +23,7 @@ const db: dbProps[] = [
     color: "white",
     imgSrc: shoe,
     amount: 200,
-    quanty: 0,
+    quantity: 0,
     id: 0,
   },
   {
@@ -31,7 +31,7 @@ const db: dbProps[] = [
     color: "white",
     imgSrc: shoe2,
     amount: 300,
-    quanty: 0,
+    quantity: 0,
     id: 1,
   },
   {
@@ -39,7 +39,7 @@ const db: dbProps[] = [
     color: "white",
     imgSrc: shoe3,
     amount: 200,
-    quanty: 0,
+    quantity: 0,
     id: 2,
   },
   {
@@ -47,7 +47,7 @@ const db: dbProps[] = [
     color: "white",
     imgSrc: shoe4,
     amount: 500,
-    quanty: 0,
+    quantity: 0,
     id: 3,
   },
   // {
@@ -71,12 +71,14 @@ function App() {
 
   // }
   function handleAdd(id: number) {
-    cartItems.map((cartItem) =>
-      cartItem.id === id
-        ? { ...cartItem, quanty: cartItem.quanty + 1 }
-        : console.log(cartItem.id, id)
-    );
-    console.log(id);
+    const sunAd = cartItems.map((cartItem) => {
+      return cartItem.id === id
+        ? { ...cartItem, quantity: cartItem.quantity + 1 }
+        : cartItem;
+    });
+    setCartItems(sunAd);
+
+    console.log(sunAd);
   }
   return (
     <div className="p-4">
@@ -92,7 +94,7 @@ function App() {
                 handleTotal={handleTotal}
                 productName={item.productName}
                 color={item.color}
-                quanty={item.quanty}
+                quantity ={item.quantity}
                 amount={item.amount}
                 id={item.id}
                 imgSrc={item.imgSrc}
