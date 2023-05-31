@@ -1,28 +1,113 @@
+import React, { ReactElement, useState } from "react";
 import "./App.css";
 import Card from "./card";
 import Header from "./header";
 import Orders from "./orders";
+import shoe from "./assets/product1.jpg";
+import shoe2 from "./assets/product2.jpg";
+import shoe3 from "./assets/product3.jpg";
+import shoe4 from "./assets/product4.jpg";
+
+export type dbProps = {
+  productName: string;
+  color: string;
+  imgSrc: string;
+  amount: number;
+  quantity: number;
+  id: number;
+  // card?: React.ReactElement;
+};
+const db: dbProps[] = [
+  {
+    productName: "bip",
+    color: "white",
+    imgSrc: shoe,
+    amount: 200,
+    quantity: 0,
+    id: 0,
+  },
+  {
+    productName: "bid",
+    color: "white",
+    imgSrc: shoe2,
+    amount: 300,
+    quantity: 0,
+    id: 1,
+  },
+  {
+    productName: "bic",
+    color: "white",
+    imgSrc: shoe3,
+    amount: 200,
+    quantity: 0,
+    id: 2,
+  },
+  {
+    productName: "biv",
+    color: "white",
+    imgSrc: shoe4,
+    amount: 500,
+    quantity: 0,
+    id: 3,
+  },
+  // {
+  //   productName: "bix",
+  //   color: "white",
+  //   imgSrc: "./image.come",
+  // },
+  // {
+  //   productName: "biy",
+  //   color: "white",
+  //   imgSrc: "./src/assets/fabian-heimann-4R_WEmhx8og-unsplash.jpg",
+  // },
+];
 
 function App() {
+  let [cartItems, setCartItems] = useState(db);
 
+  const handleTotal = (items: dbProps[]) => null;
+
+  // const handleAdd = (clickedItem:dbProps) => {
+
+  // }
+  function handleAdd(id: number) {
+    const sunAd = cartItems.map((cartItem) => {
+      return cartItem.id === id
+        ? { ...cartItem, quantity: cartItem.quantity + 1 }
+        : cartItem;
+    });
+    setCartItems(sunAd);
+
+    console.log(sunAd);
+  }
   return (
-    <>
-      <div className="">
-        {/* <h1>Hello Ecommerce</h1> */}
-        <Header />
-        <main className="border-2 border-gray-500 mt-5 md:flex justify-center p-4">
-          <div className="">
-            <Card productName="Nike watch" color="white" />
-            <Card productName="Puma watch" color="green" />
-            <Card productName="Conu watch" color="lilac" />
-            <Card productName="Apir watch" color="yellow" />
-            <Card productName="Apple watch" color="black" />
-          </div>
+    <div className="p-4">
+      <Header />
+      <main className="border-2 border-gray-500 mt-5 md:flex justify-between gap p-4 w-full">
+        <div className="card-con">
+          {cartItems.map((item) => {
+            return (
+              <Card
+                key={item.id}
+                cartItems={cartItems}
+                setCartItems={setCartItems}
+                handleTotal={handleTotal}
+                productName={item.productName}
+                color={item.color}
+                quantity ={item.quantity}
+                amount={item.amount}
+                id={item.id}
+                imgSrc={item.imgSrc}
+                handleAdd={handleAdd}
+              />
+            );
+          })}
+        </div>
 
-          <Orders />
-        </main>
-      </div>
-    </>
+        <Orders total={4} />
+        {/* <h1></h1> */}
+      </main>
+    </div>
   );
 }
 
