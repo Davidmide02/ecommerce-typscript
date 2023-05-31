@@ -17,7 +17,7 @@ function Orders({ total }: orderProps) {
       </p>
       <p className="py-4 border-b-2 border-green-500">Tax extimate: NGN 0.00</p>
       <h4 className=" text-2xl font-bold">Total: NGN{total}</h4>
-      <button className="bg-white text-black rounded-lg flex justify-center items-center gap-2 py-2 px-4 text-lg font-bold">
+      <button className="bg-white text-blue-500 hover:text-black rounded-lg flex justify-center items-center gap-2 py-2 px-4 text-lg font-bold">
         Checkout <GrCart />
       </button>
     </div>
