@@ -4,3 +4,4 @@
 ## Stack
 - Reactjs
 - TypeScript
+- Tailwindcss
